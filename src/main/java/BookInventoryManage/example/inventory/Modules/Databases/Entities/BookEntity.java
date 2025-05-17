@@ -41,6 +41,8 @@ public class BookEntity {
     @OneToMany(mappedBy = "book")
     private List<BookCategoryEntity> bookCategories;
 
+    @OneToMany(mappedBy = "book")
+    private List<ReviewEntity> reviews;
 
     @PrePersist
     public void prePersist() {
