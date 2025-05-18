@@ -1,30 +1,26 @@
 package BookInventoryManage.example.inventory.Modules.Databases.Entities;
 
+import BookInventoryManage.example.inventory.Modules.Profile.DTO.CreateProfileRequestDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
+@Entity(name = "profile")
 @Data
-@Entity(name = "userr")
-public class UserEntity {
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProfileEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "profile_id")
     private Integer Id;
-
-    @Email
-    @Column(length = 255, nullable = false)
-    private String email;
-
-    @Column(length = 150, nullable = false)
-    private String password;
 
     @Column(length = 50, nullable = false)
     private String fname;
@@ -32,33 +28,26 @@ public class UserEntity {
     @Column(length = 50, nullable = false)
     private String lname;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     @Column(nullable = false)
     private LocalDate dob;
 
     @CreationTimestamp
-    @Column(name = "create_at")
+    @Column(name = "create_at", updatable = false)
     private LocalDateTime createAt;
 
     @UpdateTimestamp
     @Column(name = "update_at")
     private LocalDateTime updateAt;
 
-    @Column(nullable = false)
-    private Integer role;
-//    user:  1
-//    admin: 2
+    @OneToOne(mappedBy = "profile")
+    private AccountEntity account;
 
-    @OneToMany(mappedBy = "user")
-    private List<ReviewEntity> reviews;
-
-
-    @PrePersist
-    public void prePersist() {
-        if (this.role == null) {
-            this.role = 1;
-        }
+    public ProfileEntity(CreateProfileRequestDTO dto, AccountEntity account){
+        this.fname = dto.getFname();
+        this.lname = dto.getLname();
+        this.dob = dto.getDob();
+        this.account = account;
     }
-
 
 }

@@ -1,11 +1,11 @@
 package BookInventoryManage.example.inventory.Modules.Databases.Entities;
 
+import BookInventoryManage.example.inventory.Modules.Book.DTO.CreateBookRequestDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,13 +27,14 @@ public class BookEntity {
     private String isbn;
 
     @CreationTimestamp
-    @Column(name = "create_at")
+    @Column(name = "create_at", updatable = false)
     private LocalDateTime createAt;
 
     @UpdateTimestamp
     @Column(name = "update_at")
     private LocalDateTime updateAt;
 
+    //    relation
     @ManyToOne
     @JoinColumn(name = "author_id")
     private AuthorEntity author;
@@ -51,6 +52,11 @@ public class BookEntity {
         }
     }
 
+    public BookEntity(CreateBookRequestDTO dto) {
+        this.title = dto.getTile();
+        this.description = dto.getDescription();
+        this.author = dto.getAuthor();
+    }
 
 
 }

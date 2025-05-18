@@ -1,7 +1,10 @@
 package BookInventoryManage.example.inventory.Modules.Databases.Entities;
 
+import BookInventoryManage.example.inventory.Modules.Category.DTO.CreateCategoryRequestDTO;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,6 +13,8 @@ import java.util.List;
 
 @Entity(name = "category")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +28,7 @@ public class CategoryEntity {
     private String description;
 
     @CreationTimestamp
-    @Column(name = "create_at")
+    @Column(name = "create_at", updatable = false)
     private LocalDateTime createAt;
 
     @UpdateTimestamp
@@ -32,4 +37,9 @@ public class CategoryEntity {
 
     @OneToMany(mappedBy = "category")
     private List<BookCategoryEntity> bookCategories;
+
+    public CategoryEntity(CreateCategoryRequestDTO dto) {
+        this.name = dto.getName();
+        this.description = dto.getDescription();
+    }
 }

@@ -1,8 +1,9 @@
 package BookInventoryManage.example.inventory.Modules.Databases.Entities;
 
-import BookInventoryManage.example.inventory.Modules.Author.dto.CreateAuthorRequestDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,28 +22,23 @@ public class AuthorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "author_id")
-    private Integer id;
+    private Integer authorId;
 
-    @Column(length = 150, nullable = false)
+    @NotBlank(message = "Author name is required")
+    @Column(length = 250, nullable = false)
     private String name;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Column(nullable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dob;
 
     @CreationTimestamp
-    @Column(name = "create_at")
-    private LocalDateTime createAt;
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "update_at")
-    private LocalDateTime updateAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "author")
     private List<BookEntity> books;
-
-    public AuthorEntity(CreateAuthorRequestDTO createAuthorRequestDTO) {
-        this.name = createAuthorRequestDTO.getName();
-        this.dob = createAuthorRequestDTO.getDob();
-    }
 }

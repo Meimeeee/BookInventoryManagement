@@ -21,7 +21,7 @@ public class ReviewEntity {
     private Integer rate;
 
     @CreationTimestamp
-    @Column(name = "create_at")
+    @Column(name = "create_at", updatable = false)
     private LocalDateTime createAt;
 
     @ManyToOne
@@ -30,7 +30,7 @@ public class ReviewEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity user;
+    private AccountEntity user;
 
 
 }

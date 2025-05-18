@@ -19,9 +19,10 @@ public class BookCategoryEntity {
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
-
-
-
+    public BookCategoryEntity(BookEntity book, CategoryEntity category) {
+        this.book = book;
+        this.category = category;
+    }
 
 
 }
