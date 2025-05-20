@@ -1,9 +1,8 @@
 package BookInventoryManage.example.inventory.Modules.Databases.Entities;
 
+import BookInventoryManage.example.inventory.Modules.Author.DTO.CreateAuthorRequestDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,14 +21,16 @@ public class AuthorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "author_id")
-    private Integer authorId;
+    private Integer Id;
 
-    @NotBlank(message = "Author name is required")
     @Column(length = 250, nullable = false)
     private String name;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dob;
+
+    @Column(length = 300)
+    private String bio;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -41,4 +42,10 @@ public class AuthorEntity {
 
     @OneToMany(mappedBy = "author")
     private List<BookEntity> books;
+
+    public AuthorEntity(CreateAuthorRequestDTO dto) {
+        this.name = dto.getName();
+        this.dob = dto.getDob();
+        this.bio = dto.getBio();
+    }
 }

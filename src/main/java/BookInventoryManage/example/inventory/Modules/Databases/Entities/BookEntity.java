@@ -52,11 +52,9 @@ public class BookEntity {
         }
     }
 
-    public BookEntity(CreateBookRequestDTO dto) {
+    public BookEntity(CreateBookRequestDTO dto, AuthorEntity author) {
         this.title = dto.getTile();
         this.description = dto.getDescription();
-        this.author = dto.getAuthor();
+        this.author = author;
     }
-
-
 }

@@ -1,5 +1,6 @@
 package BookInventoryManage.example.inventory.Modules.Databases.Entities;
 
+import BookInventoryManage.example.inventory.Modules.Review.DTO.CreateReviewRequestDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -14,7 +15,7 @@ public class ReviewEntity {
     @Column(name = "review_id")
     private Integer Id;
 
-    @Column(length = 300, nullable = false)
+    @Column(length = 1000, nullable = false)
     private String content;
 
     @Column(nullable = false)
@@ -32,5 +33,9 @@ public class ReviewEntity {
     @JoinColumn(name = "user_id")
     private AccountEntity user;
 
+    public ReviewEntity(CreateReviewRequestDTO dto) {
+        this.content = dto.getContent();
+        this.rate = dto.getRate();
+    }
 
 }

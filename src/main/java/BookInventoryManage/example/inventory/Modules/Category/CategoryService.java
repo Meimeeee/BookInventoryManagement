@@ -31,16 +31,23 @@ public class CategoryService {
     //    update
     public void updateCategory(Integer cateID, UpdateCategoryRequestDTO dto) {
         CategoryEntity category = this.getCateById(cateID);
+        if (dto.getName() == null || dto.getName().trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category name must not be blank or whitespace only !!");
+        }
         category.setName(dto.getName());
+
+        if (dto.getDescription() == null || dto.getDescription().trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category description must not be blank or whitespace only !!");
+        }
         category.setDescription(dto.getDescription());
         categoryRepository.save(category);
     }
 
     //    delete by id
-    public void deleteCateById(Integer Id) {
-        CategoryEntity cate = this.getCateById(Id);
-        categoryRepository.delete(cate);
-    }
+//    public void deleteCateById(Integer Id) {
+//        CategoryEntity cate = this.getCateById(Id);
+//        categoryRepository.delete(cate);
+//    }
 
     //    get all lists
     public List<CategoryEntity> getListCategories() {

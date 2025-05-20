@@ -12,11 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateBookRequestDTO {
-    @NotBlank(message = "Title is required !!")
     @Size(max = 150, message = "Title must not exceed 150 characters")
     private String tile;
 
-    @NotBlank(message = "Description is required !!")
     @Size(max = 1000, message = "Description must not exceed 1000 characters")
     private String description;
 

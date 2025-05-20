@@ -10,11 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateCategoryRequestDTO {
-    @NotBlank(message = "Name is required !!")
     @Size(max = 100, message = "Name must not exceed 100 characters")
     private String name;
 
-    @NotBlank(message = "Description is required !!")
     @Size(max = 1000, message = "Description must not exceed 1000 characters")
     private String description;
 }

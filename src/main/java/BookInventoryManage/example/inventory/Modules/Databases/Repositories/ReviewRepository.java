@@ -1,0 +1,7 @@
+package BookInventoryManage.example.inventory.Modules.Databases.Repositories;
+
+import BookInventoryManage.example.inventory.Modules.Databases.Entities.ReviewEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
+}
