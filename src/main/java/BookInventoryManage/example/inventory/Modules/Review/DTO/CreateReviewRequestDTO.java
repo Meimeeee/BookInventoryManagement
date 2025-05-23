@@ -1,9 +1,6 @@
 package BookInventoryManage.example.inventory.Modules.Review.DTO;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +14,10 @@ public class CreateReviewRequestDTO {
     @Size(max = 1000, message = "Content must not exceed 1000 characters !!")
     private String content;
 
-    @Min(1)
-    @Max(10)
+    @Min(value = 1, message = "Rating must be at least 1 !!")
+    @Max(value = 10, message = "Rating must be at most 10 !!")
     private Integer rate;
+
+    @NotNull(message = "Book ID is required !!")
+    private Integer bookId;
 }

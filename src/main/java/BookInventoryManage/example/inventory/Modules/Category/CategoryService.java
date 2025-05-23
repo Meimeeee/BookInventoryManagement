@@ -3,6 +3,7 @@ package BookInventoryManage.example.inventory.Modules.Category;
 import BookInventoryManage.example.inventory.Modules.Category.DTO.CreateCategoryRequestDTO;
 import BookInventoryManage.example.inventory.Modules.Category.DTO.UpdateCategoryRequestDTO;
 import BookInventoryManage.example.inventory.Modules.Databases.Entities.CategoryEntity;
+import BookInventoryManage.example.inventory.Modules.Databases.Repositories.BookCategoryRepository;
 import BookInventoryManage.example.inventory.Modules.Databases.Repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,9 @@ import java.util.Optional;
 public class CategoryService {
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    BookCategoryRepository bookCategoryRepository;
 
     //    add
     public void createCategory(CreateCategoryRequestDTO dto) {
@@ -44,10 +48,11 @@ public class CategoryService {
     }
 
     //    delete by id
-//    public void deleteCateById(Integer Id) {
-//        CategoryEntity cate = this.getCateById(Id);
-//        categoryRepository.delete(cate);
-//    }
+    public void deleteCateById(Integer Id) {
+        CategoryEntity cate = this.getCateById(Id);
+        bookCategoryRepository.deleteByCategory(cate);
+        categoryRepository.delete(cate);
+    }
 
     //    get all lists
     public List<CategoryEntity> getListCategories() {

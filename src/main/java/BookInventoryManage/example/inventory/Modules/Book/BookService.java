@@ -10,6 +10,7 @@ import BookInventoryManage.example.inventory.Modules.Databases.Entities.BookEnti
 import BookInventoryManage.example.inventory.Modules.Databases.Entities.CategoryEntity;
 import BookInventoryManage.example.inventory.Modules.Databases.Repositories.BookCategoryRepository;
 import BookInventoryManage.example.inventory.Modules.Databases.Repositories.BookRepository;
+import BookInventoryManage.example.inventory.Modules.Databases.Repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,9 @@ public class BookService {
 
     @Autowired
     BookCategoryRepository bookCategoryRepository;
+
+    @Autowired
+    ReviewRepository reviewRepository;
 
 
     @Transactional
@@ -72,12 +76,13 @@ public class BookService {
         bookCategoryRepository.saveAll(bookCategoryEntities);
     }
 
-//    @Transactional
-//    public void deleteBookById(Integer Id) {
-//        BookEntity book = getBookById(Id);
-//        bookRepository.delete(book);
-//        bookCategoryRepository.deleteByBook(book);
-//    }
+    @Transactional
+    public void deleteBookById(Integer Id) {
+        BookEntity book = getBookById(Id);
+        bookCategoryRepository.deleteByBook(book);
+        reviewRepository.deleteByBook(book);
+        bookRepository.delete(book);
+    }
 
     public List<BookEntity> listAllBooks() {
         List<BookEntity> books = bookRepository.findAll();

@@ -4,6 +4,7 @@ import BookInventoryManage.example.inventory.Modules.Author.DTO.AuthorResponseDT
 import BookInventoryManage.example.inventory.Modules.Author.DTO.CreateAuthorRequestDTO;
 import BookInventoryManage.example.inventory.Modules.Author.DTO.UpdateAuthorRequestDTO;
 import BookInventoryManage.example.inventory.Modules.Databases.Entities.AuthorEntity;
+import BookInventoryManage.example.inventory.Modules.DelectionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,9 @@ public class AuthorController {
 
     @Autowired
     AuthorService authorService;
+
+    @Autowired
+    DelectionService delectionService;
 
     @PostMapping("/")
     ResponseEntity createAuthor(@RequestBody @Valid CreateAuthorRequestDTO dto) {
@@ -37,4 +41,9 @@ public class AuthorController {
         return new ResponseEntity("Updated !!", HttpStatus.OK);
     }
 
+    @DeleteMapping("/{authorID}")
+    ResponseEntity deleteAuthorById(@PathVariable Integer Id) {
+        delectionService.deleteAuthorByID(Id);
+        return new ResponseEntity("Deleted !!", HttpStatus.OK);
+    }
 }

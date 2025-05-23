@@ -26,11 +26,11 @@ public class ReviewEntity {
     private LocalDateTime createAt;
 
     @ManyToOne
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "book_id", nullable = false)
     private BookEntity book;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private AccountEntity user;
 
     public ReviewEntity(CreateReviewRequestDTO dto) {

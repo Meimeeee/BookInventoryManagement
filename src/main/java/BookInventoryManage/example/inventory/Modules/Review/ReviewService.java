@@ -18,24 +18,20 @@ public class ReviewService {
     @Autowired
     ReviewRepository reviewRepository;
 
-    public void writeReview(CreateReviewRequestDTO dto) {
-        ReviewEntity review = new ReviewEntity(dto);
-        reviewRepository.save(review);
-    }
+//    đợi làm sercutiry
+//    public void writeReview(CreateReviewRequestDTO dto) {
+//        ReviewEntity review = new ReviewEntity(dto);
+//        reviewRepository.save(review);
+//    }
 
     public ReviewEntity getReviewById(Integer Id) {
         if (Id == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Review ID list must not be empty !!");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Review ID must not be empty !!");
         }
         Optional<ReviewEntity> OptReview = reviewRepository.findById(Id);
         if (OptReview.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found Review by id = " + Id);
         else return OptReview.get();
-    }
-
-    public List<ReviewEntity> listAllReviewByBookId(Integer bookID){
-        List<ReviewEntity> list = new ArrayList<>();
-        for ()
     }
 
     public void deleteReviewByID(Integer Id) {

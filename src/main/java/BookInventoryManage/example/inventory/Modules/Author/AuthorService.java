@@ -2,6 +2,7 @@ package BookInventoryManage.example.inventory.Modules.Author;
 
 import BookInventoryManage.example.inventory.Modules.Author.DTO.CreateAuthorRequestDTO;
 import BookInventoryManage.example.inventory.Modules.Author.DTO.UpdateAuthorRequestDTO;
+import BookInventoryManage.example.inventory.Modules.Book.BookService;
 import BookInventoryManage.example.inventory.Modules.Databases.Entities.AuthorEntity;
 import BookInventoryManage.example.inventory.Modules.Databases.Entities.BookEntity;
 import BookInventoryManage.example.inventory.Modules.Databases.Repositories.AuthorRepository;
@@ -20,9 +21,6 @@ public class AuthorService {
     @Autowired
     AuthorRepository authorRepository;
 
-    @Autowired
-    BookRepository bookRepository;
-
     public void createAuthor(CreateAuthorRequestDTO dto) {
         if (dto.getBio() == null || dto.getBio().trim().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Author bio must not be blank or whitespace only");
@@ -32,7 +30,7 @@ public class AuthorService {
     }
 
     public AuthorEntity getAuthorByID(Integer Id) {
-        if(Id == null){
+        if (Id == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Author ID list must not be empty !!");
         }
         Optional<AuthorEntity> OptAuthor = authorRepository.findById(Id);
@@ -65,9 +63,6 @@ public class AuthorService {
         authorRepository.save(author);
     }
 
-//    public void deleteAuthorByID(Integer Id) {
-//        AuthorEntity author = getAuthorByID(Id);
-//        authorRepository.delete(author);
-//    }
+
 
 }

@@ -4,6 +4,7 @@ import BookInventoryManage.example.inventory.Modules.Databases.Entities.AuthorEn
 import BookInventoryManage.example.inventory.Modules.Databases.Entities.BookEntity;
 import BookInventoryManage.example.inventory.Modules.Databases.Entities.ReviewEntity;
 import BookInventoryManage.example.inventory.Modules.Databases.Repositories.BookRepository;
+import BookInventoryManage.example.inventory.Modules.Review.DTO.ReviewResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,10 +24,19 @@ public class BookResponseDTO {
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
     private AuthorEntity author;
-    private List<ReviewEntity> reviews;
+    private List<ReviewResponseDTO> reviews;
 
-//    public static BookResponseDTO fromEntity(BookEntity book){
-//
-//
-//    }
+    public static BookResponseDTO fromEntity(BookEntity book) {
+        return new BookResponseDTO(book.getIsbn(), book.getTitle(), book.getDescription(),
+                book.getCreateAt(), book.getUpdateAt(), book.getAuthor(),
+                ReviewResponseDTO.fromEntities(book.getReviews()));
+    }
+
+    public static List<BookResponseDTO> fromEntites(List<BookEntity> books) {
+        List<BookResponseDTO> list = new ArrayList<>();
+        for (BookEntity book : books) {
+            list.add(fromEntity(book));
+        }
+        return list;
+    }
 }

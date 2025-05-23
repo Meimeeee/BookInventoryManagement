@@ -4,7 +4,9 @@ import BookInventoryManage.example.inventory.Modules.Account.DTO.CreateAccountRe
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.beans.Encoder;
 import java.util.List;
 
 @Data
@@ -44,8 +46,9 @@ public class AccountEntity {
     }
 
     public AccountEntity(CreateAccountRequestDTO dto) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         this.email = dto.getEmail();
-        this.password = dto.getPassword();
+        this.password = encoder.encode(dto.getPassword());
         this.role = dto.getRole();
         this.profile = new ProfileEntity(dto.getProfile(), this);
     }
