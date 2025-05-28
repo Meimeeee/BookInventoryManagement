@@ -1,7 +1,6 @@
 package BookInventoryManage.example.inventory.Modules.Profile;
 
 import BookInventoryManage.example.inventory.Modules.Databases.Entities.ProfileEntity;
-import BookInventoryManage.example.inventory.Modules.Databases.Repositories.AccountReposity;
 import BookInventoryManage.example.inventory.Modules.Databases.Repositories.ProfileRepository;
 import BookInventoryManage.example.inventory.Modules.Profile.DTO.UpdateProfileRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +26,16 @@ public class ProfileService {
             profile.setDob(dto.getDob());
             profileRepository.save(profile);
         }
+    }
 
+    public ProfileEntity getProfileById(Integer Id) {
+        if (Id == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Profile Id must not be empty !!");
+        }
+        Optional<ProfileEntity> Opt = profileRepository.findById(Id);
+        if (Opt.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found Profile by ID: " + Id);
+        }
+        return Opt.get();
     }
 }

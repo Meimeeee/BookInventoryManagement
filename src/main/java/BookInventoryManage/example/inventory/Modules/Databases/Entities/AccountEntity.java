@@ -1,5 +1,6 @@
 package BookInventoryManage.example.inventory.Modules.Databases.Entities;
 
+import BookInventoryManage.example.inventory.Enums.Role;
 import BookInventoryManage.example.inventory.Modules.Account.DTO.CreateAccountRequestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -25,11 +26,10 @@ public class AccountEntity {
     private String password;
 
     @Column(nullable = false)
-    private Integer role;
-//    guest
+    private Role role;
+//    guest : 0
 //    user:   1
-//    author: 2
-//    admin:  0
+//    admin:  2
 
     @OneToMany(mappedBy = "user")
     private List<ReviewEntity> reviews;
@@ -41,7 +41,7 @@ public class AccountEntity {
     @PrePersist
     public void prePersist() {
         if (this.role == null) {
-            this.role = 1;
+            this.role = Role.USER;
         }
     }
 

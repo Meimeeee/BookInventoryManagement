@@ -1,5 +1,6 @@
 package BookInventoryManage.example.inventory.Modules.Account.DTO;
 
+import BookInventoryManage.example.inventory.Enums.Role;
 import BookInventoryManage.example.inventory.Modules.Profile.DTO.CreateProfileRequestDTO;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -21,9 +22,6 @@ public class CreateAccountRequestDTO {
             message = "Password must contain at least 8 characters, one uppercase, one lowercase, one digit, and one special character"
     )
     private String password;
-
-    @Min(value = 0, message = "Role must be at least 0")
-    @Max(value = 2, message = "Role must be at most 2")
-    private Integer role;
+    private Role role;
     private CreateProfileRequestDTO profile;
 }

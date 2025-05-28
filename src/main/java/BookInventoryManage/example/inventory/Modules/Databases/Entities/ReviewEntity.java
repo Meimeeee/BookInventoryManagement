@@ -33,9 +33,11 @@ public class ReviewEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private AccountEntity user;
 
-    public ReviewEntity(CreateReviewRequestDTO dto) {
+    public ReviewEntity(CreateReviewRequestDTO dto, BookEntity book, AccountEntity account) {
         this.content = dto.getContent();
         this.rate = dto.getRate();
+        this.book = book;
+        this.user = account;
     }
 
 }

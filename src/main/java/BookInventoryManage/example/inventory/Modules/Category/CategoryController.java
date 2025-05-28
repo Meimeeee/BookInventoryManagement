@@ -26,7 +26,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{categoryId}")
-    ResponseEntity updateCategoryByID(@RequestBody @Valid UpdateCategoryRequestDTO dto, @PathVariable Integer Id) {
+    ResponseEntity updateCategoryByID(@RequestBody @Valid UpdateCategoryRequestDTO dto, @PathVariable("categoryId") Integer Id) {
         categoryService.updateCategory(Id, dto);
         return new ResponseEntity("Updated !!", HttpStatus.OK);
     }
@@ -37,4 +37,9 @@ public class CategoryController {
         return new ResponseEntity(CategoryResponseDTO.fromEntities(list), HttpStatus.OK);
     }
 
+    @DeleteMapping("/{categoryId}")
+    ResponseEntity deleteCategory(@PathVariable("categoryId") Integer Id) {
+        categoryService.deleteCateById(Id);
+        return new ResponseEntity("Deleted !!", HttpStatus.OK);
+    }
 }

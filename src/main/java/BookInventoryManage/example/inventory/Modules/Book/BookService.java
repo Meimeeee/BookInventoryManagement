@@ -130,4 +130,14 @@ public class BookService {
         }
         return list;
     }
+
+//    public List<BookEntity> listBookByCategoryName(String CategoryName) {
+//        if (CategoryName == null || CategoryName.trim().isEmpty()) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book's name must not be blank or whitespace only !!");
+//        }
+//        List<BookEntity> list = bookRepository.findByCategoryNameContainingIgnoreCase(CategoryName);
+//        if (list.isEmpty())
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found any book by name " + CategoryName);
+//        else return list;
+//    }
 }

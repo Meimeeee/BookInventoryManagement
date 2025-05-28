@@ -1,15 +1,14 @@
 package BookInventoryManage.example.inventory.Security;
 
-import lombok.AllArgsConstructor;
+import BookInventoryManage.example.inventory.Enums.Role;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 @Data
-public class BookInventoryAuthority implements GrantedAuthority {
+public class BIAuthority implements GrantedAuthority {
 
-    public static BookInventoryAuthority of(Integer role) {
-        return new BookInventoryAuthority(role.toString());
+    public static BIAuthority of(Role role) {
+        return new BIAuthority(role.name());
     }
 
     private String authority;
@@ -19,7 +18,7 @@ public class BookInventoryAuthority implements GrantedAuthority {
         return authority;
     }
 
-    private BookInventoryAuthority(String authority) {
+    private BIAuthority(String authority) {
         this.authority = authority;
     }
 }

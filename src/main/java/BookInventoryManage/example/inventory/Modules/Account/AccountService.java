@@ -1,17 +1,19 @@
 package BookInventoryManage.example.inventory.Modules.Account;
 
+import BookInventoryManage.example.inventory.Enums.Role;
 import BookInventoryManage.example.inventory.Modules.Account.DTO.CreateAccountRequestDTO;
-import BookInventoryManage.example.inventory.Modules.Account.DTO.UpdateAccountRequestDTO;
 import BookInventoryManage.example.inventory.Modules.Databases.Entities.AccountEntity;
-import BookInventoryManage.example.inventory.Modules.Databases.Entities.ProfileEntity;
 import BookInventoryManage.example.inventory.Modules.Databases.Repositories.AccountReposity;
 import BookInventoryManage.example.inventory.Modules.Databases.Repositories.ReviewRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,16 +32,6 @@ public class AccountService {
         accountReposity.save(acc);
     }
 
-    public void updateAccount(Integer accountID, UpdateAccountRequestDTO dto) {
-        Optional<AccountEntity> OptAcc = accountReposity.findById(accountID);
-        if (OptAcc.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found account !!");
-        else {
-            AccountEntity acc = OptAcc.get();
-            acc.setPassword(dto.getPassword());
-            accountReposity.save(acc);
-        }
-    }
-
     public AccountEntity getAccountByID(Integer accID) {
         if (accID == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Account ID must not be empty !!");
@@ -50,11 +42,25 @@ public class AccountService {
         } else return OptAcc.get();
     }
 
+
     public void deleteAccount(Integer Id) {
+        SecurityContext context = SecurityContextHolder.getContext();
         AccountEntity account = getAccountByID(Id);
-        reviewRepository.deleteByUser(account);
-        accountReposity.delete(account);
+        AccountEntity currentAcc = (AccountEntity) context.getAuthentication();
+        if (currentAcc.getRole() == Role.ADMIN || currentAcc.getId().equals(account.getId())) {
+            reviewRepository.deleteByUser(currentAcc);
+            accountReposity.delete(currentAcc);
+        } else {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You do not have sufficient permissions to delete !!");
+        }
     }
 
+    public List<AccountEntity> getListProfile() {
+        List<AccountEntity> list = accountReposity.findAll();
+        if (list.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found any account !!");
+        }
+        return list;
+    }
 
 }

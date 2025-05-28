@@ -16,6 +16,15 @@ public class UpdateAccountRequestDTO {
             regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$",
             message = "Password must contain at least 8 characters, one uppercase, one lowercase, one digit, and one special character"
     )
-    private String password;
+    private String oldPassword;
+
+    @NotBlank(message = "Password is required !!")
+    @Pattern(
+            regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$",
+            message = "Password must contain at least 8 characters, one uppercase, one lowercase, one digit, and one special character"
+    )
+    private String newPassword;
+
+
 
 }
