@@ -27,11 +27,17 @@ public class AccountController {
         return new ResponseEntity("Register Successfully !!", HttpStatus.OK);
     }
 
-    //    list all accounts
+    //    admin
     @GetMapping("/")
     ResponseEntity getListProfile() {
         List<AccountEntity> list = accountService.getListProfile();
         return new ResponseEntity(AccountResponseDTO.fromEntities(list), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{accountID}")
+    ResponseEntity deleteAccount(@PathVariable("accountID") Integer Id) {
+        accountService.delete_admin(Id);
+        return new ResponseEntity("Deleted Successfully !!", HttpStatus.OK);
     }
 
 

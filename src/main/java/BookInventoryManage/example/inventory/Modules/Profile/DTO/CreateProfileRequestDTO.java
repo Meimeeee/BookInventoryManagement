@@ -1,5 +1,6 @@
 package BookInventoryManage.example.inventory.Modules.Profile.DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
@@ -22,5 +23,6 @@ public class CreateProfileRequestDTO {
     private String lname;
 
     @Past(message = "Date of birth must be in past !!")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dob;
 }

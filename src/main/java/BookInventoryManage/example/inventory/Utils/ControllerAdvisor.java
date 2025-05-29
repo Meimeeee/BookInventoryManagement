@@ -28,10 +28,10 @@ public class ControllerAdvisor {
     }
 
     //    không tìm thấy tài nguyên
-    @ExceptionHandler(ResponseStatusException.class)
-    protected ResponseEntity handleResponseStatusException(ResponseStatusException e) {
-        return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(ResponseStatusException.class)
+//    protected ResponseEntity handleResponseStatusException(ResponseStatusException e) {
+//        return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     //    Validation input
     @ExceptionHandler(MethodArgumentNotValidException.class)

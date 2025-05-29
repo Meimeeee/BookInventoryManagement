@@ -31,8 +31,15 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{reviewID}")
-    private ResponseEntity deleteReview(@PathVariable("reviewID") Integer Id) {
-        reviewService.deleteReview(Id);
+    private ResponseEntity deleteReview_user(@PathVariable("reviewID") Integer Id) {
+        reviewService.delete_user(Id);
+        return new ResponseEntity("Deleted !!", HttpStatus.OK);
+    }
+
+//    admin
+    @DeleteMapping("/admin/{reviewID}")
+    private ResponseEntity deleteReview_admin(@PathVariable("reviewID") Integer Id) {
+        reviewService.delete_admin(Id);
         return new ResponseEntity("Deleted !!", HttpStatus.OK);
     }
 }

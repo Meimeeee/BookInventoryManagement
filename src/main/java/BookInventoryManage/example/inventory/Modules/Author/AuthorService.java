@@ -46,20 +46,17 @@ public class AuthorService {
 
     public void updateAuthorById(Integer Id, UpdateAuthorRequestDTO dto) {
         AuthorEntity author = getAuthorByID(Id);
-        if (dto.getName() == null || dto.getName().trim().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Author name must not be blank or whitespace only !!");
+        if (dto.getName() != null && !dto.getName().trim().isEmpty()) {
+            author.setName(dto.getName());
         }
-        author.setName(dto.getName());
 
-        if (dto.getDob() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Date of birth must not be null !!");
+        if (dto.getDob() != null) {
+            author.setDob(dto.getDob());
         }
-        author.setDob(dto.getDob());
 
-        if (dto.getBio() == null || dto.getBio().trim().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Author name must not be blank or whitespace only !!");
+        if (dto.getBio() != null && !dto.getBio().trim().isEmpty()) {
+            author.setBio(dto.getBio());
         }
-        author.setBio(dto.getBio());
         authorRepository.save(author);
     }
 

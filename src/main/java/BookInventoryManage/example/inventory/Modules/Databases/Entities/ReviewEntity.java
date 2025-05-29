@@ -4,6 +4,7 @@ import BookInventoryManage.example.inventory.Modules.Review.DTO.CreateReviewRequ
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +25,10 @@ public class ReviewEntity {
     @CreationTimestamp
     @Column(name = "create_at", updatable = false)
     private LocalDateTime createAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)

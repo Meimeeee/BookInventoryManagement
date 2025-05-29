@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -31,7 +32,7 @@ public class AuthController {
 
     @PostMapping("/google")
     private ResponseEntity googleLogin(@RequestBody GoogleLoginDTO dto) {
-        String accessToken = authService.googleLogin(dto);
+        TokenResponseDTO accessToken = authService.googleLogin(dto);
         return new ResponseEntity(accessToken, HttpStatus.OK);
     }
 
@@ -53,9 +54,9 @@ public class AuthController {
         return new ResponseEntity("Updated !!", HttpStatus.OK);
     }
 
-    @DeleteMapping("/{accountID}")
+    @DeleteMapping("/")
     ResponseEntity deleteAccount(@PathVariable("accountID") Integer Id) {
-        accountService.deleteAccount(Id);
+        accountService.delete_user();
         return new ResponseEntity("Deleted !!", HttpStatus.OK);
     }
 

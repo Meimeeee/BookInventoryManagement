@@ -82,7 +82,13 @@ public class ReviewService {
         else return list;
     }
 
-    public void deleteReview(Integer reviewId) {
+    public void delete_admin(Integer reviewId) {
+        ReviewEntity review = getReviewById(reviewId);
+        reviewRepository.delete(review);
+
+    }
+
+    public void delete_user(Integer reviewId) {
         SecurityContext context = SecurityContextHolder.getContext();
         AccountEntity currentAcc = (AccountEntity) context.getAuthentication();
         ReviewEntity review = getReviewById(reviewId);

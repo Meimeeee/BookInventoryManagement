@@ -100,13 +100,15 @@ public class BookService {
         else return OptBook.get();
     }
 
-    public List<BookEntity> listBookByAuthorName(String authorName) {
+    public List<BookEntity> listBookByAuthorName(String authorName, boolean isThrow) {
         if (authorName == null || authorName.trim().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Author's name must not be blank or whitespace only !!");
         }
         List<BookEntity> list = bookRepository.findByAuthor_NameContainingIgnoreCase(authorName);
-        if (list.isEmpty())
+        if (list.isEmpty() && isThrow == true)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found any book of author's name " + authorName);
+        else if (list.isEmpty() && isThrow == false)
+            return null;
         else return list;
     }
 

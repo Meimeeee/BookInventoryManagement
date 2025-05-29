@@ -25,9 +25,11 @@ public class DelectionService {
 
     public void deleteAuthorByID(Integer Id) {
         AuthorEntity author = authorService.getAuthorByID(Id);
-        List<BookEntity> listBooks = bookService.listBookByAuthorName(author.getName());
-        for (BookEntity book : listBooks) {
-            bookService.deleteBookById(book.getId());
+        List<BookEntity> listBooks = bookService.listBookByAuthorName(author.getName(), false);
+        if (listBooks != null) {
+            for (BookEntity book : listBooks) {
+                bookService.deleteBookById(book.getId());
+            }
         }
         authorRepository.delete(author);
     }

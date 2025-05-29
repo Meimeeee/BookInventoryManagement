@@ -4,14 +4,21 @@ import BookInventoryManage.example.inventory.Enums.Role;
 import BookInventoryManage.example.inventory.Modules.Account.DTO.CreateAccountRequestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.beans.Encoder;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Entity(name = "account")
+@NoArgsConstructor
+@AllArgsConstructor
 public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +31,14 @@ public class AccountEntity {
 
     @Column(length = 150, nullable = false)
     private String password;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @Column(nullable = false)
     private Role role;

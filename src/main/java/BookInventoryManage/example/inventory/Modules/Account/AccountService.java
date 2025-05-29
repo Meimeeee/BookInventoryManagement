@@ -43,16 +43,17 @@ public class AccountService {
     }
 
 
-    public void deleteAccount(Integer Id) {
+    public void delete_user() {
         SecurityContext context = SecurityContextHolder.getContext();
-        AccountEntity account = getAccountByID(Id);
         AccountEntity currentAcc = (AccountEntity) context.getAuthentication();
-        if (currentAcc.getRole() == Role.ADMIN || currentAcc.getId().equals(account.getId())) {
-            reviewRepository.deleteByUser(currentAcc);
-            accountReposity.delete(currentAcc);
-        } else {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You do not have sufficient permissions to delete !!");
-        }
+        reviewRepository.deleteByUser(currentAcc);
+        accountReposity.delete(currentAcc);
+    }
+
+    public void delete_admin(Integer id) {
+        AccountEntity acc = getAccountByID(id);
+        reviewRepository.deleteByUser(acc);
+        accountReposity.delete(acc);
     }
 
     public List<AccountEntity> getListProfile() {

@@ -6,7 +6,6 @@ import BookInventoryManage.example.inventory.Modules.Auth.DTO.BasicLoginDTO;
 import BookInventoryManage.example.inventory.Modules.Auth.DTO.GoogleLoginDTO;
 import BookInventoryManage.example.inventory.Modules.Auth.DTO.TokenResponseDTO;
 import BookInventoryManage.example.inventory.Modules.Databases.Entities.AccountEntity;
-import BookInventoryManage.example.inventory.Modules.Databases.Entities.ProfileEntity;
 import BookInventoryManage.example.inventory.Modules.Databases.Repositories.AccountReposity;
 import BookInventoryManage.example.inventory.Modules.Profile.DTO.UpdateProfileRequestDTO;
 import BookInventoryManage.example.inventory.Modules.Profile.ProfileService;
@@ -28,7 +27,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -112,13 +110,13 @@ public class AuthService {
     }
 
     //    login Google
-    public String googleLogin(GoogleLoginDTO dto) {
+    public TokenResponseDTO googleLogin(GoogleLoginDTO credential) {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), GsonFactory.getDefaultInstance())
                 .setAudience(Collections.singletonList(configuration.getGoogleClientId()))
                 .build();
         GoogleIdToken idToken = null;
         try {
-            idToken = verifier.verify(dto.getCredential());
+            idToken = verifier.verify(credential.getCredential());
         } catch (Exception e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -132,7 +130,7 @@ public class AuthService {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not register yet !!");
             }
             AccountEntity account = result.get();
-            return signAccessToken(account);
+            return new TokenResponseDTO(signAccessToken(account));
         } else {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "ID Token is null !!");
         }
