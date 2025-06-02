@@ -21,12 +21,12 @@ public class AuthorResponseDTO {
     private String bio;
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
-    private List<BookEntity> books;
+    private List<String> books;
 
     public static AuthorResponseDTO fromEntity(AuthorEntity author) {
-        List<BookEntity> list = new ArrayList<>();
+        List<String> list = new ArrayList<>();
         for (BookEntity book : author.getBooks()) {
-            list.add(book);
+            list.add(book.getTitle());
         }
         return new AuthorResponseDTO(author.getId(), author.getName(), author.getDob(), author.getBio(), author.getCreatedAt(), author.getUpdatedAt(), list);
     }

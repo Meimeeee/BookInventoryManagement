@@ -34,17 +34,23 @@ public class CategoryService {
 
     //    update
     public void updateCategory(Integer cateID, UpdateCategoryRequestDTO dto) {
+        boolean isUpdate = false;
         CategoryEntity category = this.getCateById(cateID);
-        if (dto.getName() == null || dto.getName().trim().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category name must not be blank or whitespace only !!");
+        if (dto.getName() != null && !dto.getName().trim().isEmpty()) {
+            category.setName(dto.getName());
+            isUpdate = true;
         }
-        category.setName(dto.getName());
 
-        if (dto.getDescription() == null || dto.getDescription().trim().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category description must not be blank or whitespace only !!");
+
+        if (dto.getDescription() != null && !dto.getDescription().trim().isEmpty()) {
+            category.setDescription(dto.getDescription());
+            isUpdate = true;
         }
-        category.setDescription(dto.getDescription());
-        categoryRepository.save(category);
+
+        if (isUpdate)
+            categoryRepository.save(category);
+        else
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No information provided for update !!");
     }
 
     //    delete by id
@@ -73,14 +79,19 @@ public class CategoryService {
     }
 
     //    get list cate by list ID
-    public List<CategoryEntity> getListCateByIds(List<Integer> cateIds) {
-        if (cateIds == null || cateIds.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category ID list must not be empty.");
-        }
+    public List<CategoryEntity> getListCateByIds(List<Integer> cateIds, boolean isThrow) {
         List<CategoryEntity> list = new ArrayList<>();
-        for (Integer categoryId : cateIds) {
-            CategoryEntity cate = getCateById(categoryId);
-            list.add(cate);
+        if (cateIds != null && !cateIds.isEmpty()) {
+            for (Integer categoryId : cateIds) {
+                CategoryEntity cate = getCateById(categoryId);
+                list.add(cate);
+            }
+        } else {
+            if (isThrow) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category ID list must not be empty.");
+            } else {
+                return null;
+            }
         }
         return list;
     }

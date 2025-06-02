@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class UpdateBookRequestDTO {
     @Size(max = 150, message = "Title must not exceed 150 characters")
-    private String tile;
+    private String title;
 
     @Size(max = 1000, message = "Description must not exceed 1000 characters")
     private String description;

@@ -1,10 +1,14 @@
 package BookInventoryManage.example.inventory.Modules.Databases.Entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity(name = "book_category")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class BookCategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

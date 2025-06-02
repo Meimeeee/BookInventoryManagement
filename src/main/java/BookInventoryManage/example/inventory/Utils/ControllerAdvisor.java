@@ -11,14 +11,11 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @ControllerAdvice
 public class ControllerAdvisor {
-
-//    @ExceptionHandler(Exception.class)
-//    protected ResponseEntity handleException(Exception e) {
-//        e.printStackTrace();
-//        return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<String> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
@@ -28,10 +25,12 @@ public class ControllerAdvisor {
     }
 
     //    không tìm thấy tài nguyên
-//    @ExceptionHandler(ResponseStatusException.class)
-//    protected ResponseEntity handleResponseStatusException(ResponseStatusException e) {
-//        return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<Map<String, String>> handleResponseStatusException(ResponseStatusException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getReason());
+        return new ResponseEntity<>(error, ex.getStatusCode());
+    }
 
     //    Validation input
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -62,5 +61,6 @@ public class ControllerAdvisor {
     protected ResponseEntity hadleMissingPathVariableException(MissingPathVariableException e) {
         return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 
 }

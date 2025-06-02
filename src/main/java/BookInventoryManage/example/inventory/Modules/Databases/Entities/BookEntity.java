@@ -2,7 +2,9 @@ package BookInventoryManage.example.inventory.Modules.Databases.Entities;
 
 import BookInventoryManage.example.inventory.Modules.Book.DTO.CreateBookRequestDTO;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,6 +13,8 @@ import java.util.List;
 
 @Data
 @Entity(name = "book")
+@NoArgsConstructor
+@AllArgsConstructor
 public class BookEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,7 +57,7 @@ public class BookEntity {
     }
 
     public BookEntity(CreateBookRequestDTO dto, AuthorEntity author) {
-        this.title = dto.getTile();
+        this.title = dto.getTitle();
         this.description = dto.getDescription();
         this.author = author;
     }

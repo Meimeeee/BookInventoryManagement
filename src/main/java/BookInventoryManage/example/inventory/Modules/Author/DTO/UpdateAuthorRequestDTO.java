@@ -9,12 +9,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateAuthorRequestDTO {
-    private String name;
+    private Optional<String> name;
 
     @Past(message = "Date of birth must be in the past !!")
     @JsonFormat(pattern = "dd-MM-yyyy")

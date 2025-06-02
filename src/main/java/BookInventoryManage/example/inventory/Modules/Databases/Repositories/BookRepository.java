@@ -7,15 +7,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository<BookEntity, Integer> {
-    public List<BookEntity> findByAuthor_NameContainingIgnoreCase(String authorName);
-    public List<BookEntity> findByTitleContainingIgnoreCase(String name);
-    public List<BookEntity> findByIsbnContainingIgnoreCase(String isbn);
-//
-//    @Query("SELECT b FROM BookEntity b JOIN b.bookCategories bc JOIN bc.category c WHERE LOWER(c.name) LIKE LOWER(CONCAT('%', :category, '%'))")
-//    public List<BookEntity> findByCategoryNameContainingIgnoreCase(@Param("category") String category);
+    @Query("SELECT b FROM book b WHERE b.isbn = :isbn")
+    public Optional<BookEntity> findByIsbnCus(@Param("isbn") String isbn);
+
+    @Query("SELECT b FROM book b WHERE b.title")
 
 
 }

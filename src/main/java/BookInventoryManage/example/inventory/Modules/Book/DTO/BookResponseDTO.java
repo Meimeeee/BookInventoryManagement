@@ -18,17 +18,18 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookResponseDTO {
+    private Integer bookId;
     private String ISBN;
     private String title;
     private String description;
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
-    private AuthorEntity author;
+    private String authorName;
     private List<ReviewResponseDTO> reviews;
 
     public static BookResponseDTO fromEntity(BookEntity book) {
-        return new BookResponseDTO(book.getIsbn(), book.getTitle(), book.getDescription(),
-                book.getCreateAt(), book.getUpdateAt(), book.getAuthor(),
+        return new BookResponseDTO(book.getId(), book.getIsbn(), book.getTitle(), book.getDescription(),
+                book.getCreateAt(), book.getUpdateAt(), book.getAuthor().getName(),
                 ReviewResponseDTO.fromEntities(book.getReviews()));
     }
 

@@ -1,14 +1,15 @@
 package BookInventoryManage.example.inventory.Security;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import BookInventoryManage.example.inventory.Enums.Role;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
 
 @Data
 public class BIAuthority implements GrantedAuthority {
 
     public static BIAuthority of(Role role) {
-        return new BIAuthority(role.name());
+        return new BIAuthority(role.toString());
     }
 
     private String authority;

@@ -1,5 +1,7 @@
 package BookInventoryManage.example.inventory.Security;
 
+import java.util.List;
+
 import BookInventoryManage.example.inventory.Enums.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,12 +10,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
-import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -40,7 +39,7 @@ public class BISecurityConfiguration {
                 .authorizeHttpRequests((authorize -> authorize
 //                        guest
                         .requestMatchers(HttpMethod.GET, "/book/**", "/category/**").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/account/**", "/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/account/**", "/auth/**").permitAll()
 //                        user
                         .requestMatchers("/auth/**", "/review/**").authenticated()
 //                        admin

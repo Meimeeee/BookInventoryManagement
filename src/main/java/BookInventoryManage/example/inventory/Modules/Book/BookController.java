@@ -43,19 +43,19 @@ public class BookController {
     }
 
     //    search
-    @GetMapping("/search/{authorName}")
+    @GetMapping("/author/{authorName}")
     ResponseEntity listBookByAuthorName(@PathVariable("authorName") String authorName) {
         List<BookEntity> list = bookService.listBookByAuthorName(authorName, true);
         return new ResponseEntity(BookResponseDTO.fromEntites(list), HttpStatus.OK);
     }
 
-    @GetMapping("/search/{bookName}")
+    @GetMapping("/{bookName}")
     ResponseEntity listBookByBookName(@PathVariable("bookName") String name) {
         List<BookEntity> list = bookService.listBookByName(name);
         return new ResponseEntity(BookResponseDTO.fromEntites(list), HttpStatus.OK);
     }
 
-    @GetMapping("/search/{ISBN}")
+    @GetMapping("/isbn/{ISBN}")
     ResponseEntity listBookByISBN(@PathVariable("ISBN") String isbn) {
         List<BookEntity> list = bookService.listBookByISBN(isbn);
         return new ResponseEntity(BookResponseDTO.fromEntites(list), HttpStatus.OK);

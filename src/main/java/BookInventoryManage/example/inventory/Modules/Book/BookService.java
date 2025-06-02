@@ -11,6 +11,8 @@ import BookInventoryManage.example.inventory.Modules.Databases.Entities.Category
 import BookInventoryManage.example.inventory.Modules.Databases.Repositories.BookCategoryRepository;
 import BookInventoryManage.example.inventory.Modules.Databases.Repositories.BookRepository;
 import BookInventoryManage.example.inventory.Modules.Databases.Repositories.ReviewRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -42,9 +44,12 @@ public class BookService {
 
     @Transactional
     public void addBook(CreateBookRequestDTO dto) {
-        List<CategoryEntity> listCate = categoryService.getListCateByIds(dto.getCategoryIds());
-        AuthorEntity author = authorService.getAuthorByID(dto.getAuthor().getId());
+        List<CategoryEntity> listCate = categoryService.getListCateByIds(dto.getCategoryIds(), true);
+
+        AuthorEntity author = authorService.getAuthorByID(dto.getAuthorID());
+
         BookEntity book = new BookEntity(dto, author);
+
         book = bookRepository.save(book);
         List<BookCategoryEntity> bookCategoryEntities = new ArrayList<>();
         for (CategoryEntity category : listCate) {
@@ -56,24 +61,36 @@ public class BookService {
     @Transactional
     public void updateBook(Integer bookId, UpdateBookRequestDTO dto) {
         BookEntity book = getBookById(bookId);
-        if (dto.getTile() == null || dto.getTile().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Title must not be blank or whitespace only !!");
+        boolean isUpdate = false;
+        if (dto.getTitle() != null && !dto.getTitle().trim().isEmpty()) {
+            book.setTitle(dto.getTitle());
+            isUpdate = true;
         }
-        book.setTitle(dto.getTile());
-        if (dto.getDescription() == null || dto.getDescription().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Description must not be blank or whitespace only !!");
-        }
-        book.setDescription(dto.getDescription());
 
-        bookCategoryRepository.deleteByBook(book);
-
-        List<CategoryEntity> listCate = categoryService.getListCateByIds(dto.getCategoryIds());
-        List<BookCategoryEntity> bookCategoryEntities = new ArrayList<>();
-        for (CategoryEntity category : listCate) {
-            bookCategoryEntities.add(new BookCategoryEntity(book, category));
+        if (dto.getDescription() != null && !dto.getDescription().trim().isEmpty()) {
+            book.setDescription(dto.getDescription());
+            isUpdate = true;
         }
-        bookRepository.save(book);
-        bookCategoryRepository.saveAll(bookCategoryEntities);
+
+        if(isUpdate){
+            bookRepository.save(book);
+        }
+
+        List<CategoryEntity> listCate = categoryService.getListCateByIds(dto.getCategoryIds(), false);
+        if(listCate != null && !listCate.isEmpty()){
+            bookCategoryRepository.deleteByBook(book);
+
+            List<BookCategoryEntity> bookCategoryEntities = new ArrayList<>();
+            for (CategoryEntity category : listCate) {
+                bookCategoryEntities.add(new BookCategoryEntity(book, category));
+            }
+            isUpdate = true;
+            bookCategoryRepository.saveAll(bookCategoryEntities);
+        }
+
+        if(!isUpdate){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No information provided for update !!");
+        }
     }
 
     @Transactional
