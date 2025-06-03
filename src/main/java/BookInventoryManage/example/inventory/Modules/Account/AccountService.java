@@ -45,7 +45,7 @@ public class AccountService {
 
     public void delete_user() {
         SecurityContext context = SecurityContextHolder.getContext();
-        AccountEntity currentAcc = (AccountEntity) context.getAuthentication();
+        AccountEntity currentAcc = (AccountEntity) context.getAuthentication().getPrincipal();
         reviewRepository.deleteByUser(currentAcc);
         accountReposity.delete(currentAcc);
     }

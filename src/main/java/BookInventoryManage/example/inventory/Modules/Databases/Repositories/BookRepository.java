@@ -14,7 +14,10 @@ public interface BookRepository extends JpaRepository<BookEntity, Integer> {
     @Query("SELECT b FROM book b WHERE b.isbn = :isbn")
     public Optional<BookEntity> findByIsbnCus(@Param("isbn") String isbn);
 
-    @Query("SELECT b FROM book b WHERE b.title")
+    @Query("SELECT b FROM book b WHERE LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    public List<BookEntity> findByTitle(@Param("keyword") String title);
 
+    @Query("SELECT b FROM book b WHERE LOWER(b.author.name) LIKE LOWER(CONCAT('%', :authorName, '%'))")
+    public List<BookEntity> findByAuthorName(@Param("authorName") String authorName);
 
 }

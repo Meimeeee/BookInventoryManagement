@@ -121,7 +121,7 @@ public class BookService {
         if (authorName == null || authorName.trim().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Author's name must not be blank or whitespace only !!");
         }
-        List<BookEntity> list = bookRepository.findByAuthor_NameContainingIgnoreCase(authorName);
+        List<BookEntity> list = bookRepository.findByAuthorName(authorName);
         if (list.isEmpty() && isThrow == true)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found any book of author's name " + authorName);
         else if (list.isEmpty() && isThrow == false)
@@ -133,30 +133,21 @@ public class BookService {
         if (name == null || name.trim().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book's name must not be blank or whitespace only !!");
         }
-        List<BookEntity> list = bookRepository.findByTitleContainingIgnoreCase(name);
+        List<BookEntity> list = bookRepository.findByTitle(name);
         if (list.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found any book by name " + name);
         else return list;
     }
 
-    public List<BookEntity> listBookByISBN(String isbn) {
+    public BookEntity listBookByISBN(String isbn) {
         if (isbn == null || isbn.trim().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ISBN must not be blank or whitespace only !!");
         }
-        List<BookEntity> list = bookRepository.findByIsbnContainingIgnoreCase(isbn);
-        if (list.isEmpty()) {
+        Optional<BookEntity> b = bookRepository.findByIsbnCus(isbn);
+        if (b.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found any book with ISBN = " + isbn);
         }
-        return list;
+        return b.get();
     }
 
-//    public List<BookEntity> listBookByCategoryName(String CategoryName) {
-//        if (CategoryName == null || CategoryName.trim().isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book's name must not be blank or whitespace only !!");
-//        }
-//        List<BookEntity> list = bookRepository.findByCategoryNameContainingIgnoreCase(CategoryName);
-//        if (list.isEmpty())
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found any book by name " + CategoryName);
-//        else return list;
-//    }
 }

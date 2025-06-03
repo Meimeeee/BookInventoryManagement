@@ -91,7 +91,7 @@ public class AuthService {
     //    update profile
     public void updateProfile(UpdateProfileRequestDTO dto) {
         SecurityContext context = SecurityContextHolder.getContext();
-        AccountEntity acc = (AccountEntity) context.getAuthentication();
+        AccountEntity acc = (AccountEntity) context.getAuthentication().getPrincipal();
         profileService.updateProfile(acc.getProfile().getId(), dto);
     }
 

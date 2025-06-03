@@ -57,7 +57,7 @@ public class BookController {
 
     @GetMapping("/isbn/{ISBN}")
     ResponseEntity listBookByISBN(@PathVariable("ISBN") String isbn) {
-        List<BookEntity> list = bookService.listBookByISBN(isbn);
-        return new ResponseEntity(BookResponseDTO.fromEntites(list), HttpStatus.OK);
+        BookEntity b = bookService.listBookByISBN(isbn);
+        return new ResponseEntity(BookResponseDTO.fromEntity(b), HttpStatus.OK);
     }
 }

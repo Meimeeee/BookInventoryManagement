@@ -36,7 +36,7 @@ public class ReviewController {
         return new ResponseEntity("Deleted !!", HttpStatus.OK);
     }
 
-//    admin
+    //    admin
     @DeleteMapping("/admin/{reviewID}")
     private ResponseEntity deleteReview_admin(@PathVariable("reviewID") Integer Id) {
         reviewService.delete_admin(Id);

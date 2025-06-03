@@ -28,7 +28,7 @@ public class ReviewService {
 
     public void writeReview(CreateReviewRequestDTO dto) {
         SecurityContext context = SecurityContextHolder.getContext();
-        AccountEntity acc = (AccountEntity) context.getAuthentication();
+        AccountEntity acc = (AccountEntity) context.getAuthentication().getPrincipal();
         BookEntity book = bookService.getBookById(dto.getBookId());
         ReviewEntity review = new ReviewEntity(dto, book, acc);
         reviewRepository.save(review);
@@ -90,7 +90,7 @@ public class ReviewService {
 
     public void delete_user(Integer reviewId) {
         SecurityContext context = SecurityContextHolder.getContext();
-        AccountEntity currentAcc = (AccountEntity) context.getAuthentication();
+        AccountEntity currentAcc = (AccountEntity) context.getAuthentication().getPrincipal();
         ReviewEntity review = getReviewById(reviewId);
         if (currentAcc.getRole() == Role.ADMIN || (review.getUser().getId().equals(currentAcc.getId()))) {
             reviewRepository.delete(review);

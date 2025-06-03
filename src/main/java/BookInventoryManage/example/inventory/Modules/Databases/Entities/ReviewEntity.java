@@ -2,7 +2,9 @@ package BookInventoryManage.example.inventory.Modules.Databases.Entities;
 
 import BookInventoryManage.example.inventory.Modules.Review.DTO.CreateReviewRequestDTO;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,6 +12,8 @@ import java.time.LocalDateTime;
 
 @Entity(name = "review")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ReviewEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
