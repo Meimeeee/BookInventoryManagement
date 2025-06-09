@@ -56,3 +56,11 @@ BookInventoryManage is a backend system for managing a book inventory, built wit
    ```bash
    ./mvnw spring-boot:run
    ```
+4. Run front end:
+```bash
+http-server -p 3000
+```
+## Relationship Diagram
+https://drive.google.com/file/d/1p2IBkNrwqAyxK2hOu3_vBf45B3bNFHlV/view?usp=sharing
+
+
