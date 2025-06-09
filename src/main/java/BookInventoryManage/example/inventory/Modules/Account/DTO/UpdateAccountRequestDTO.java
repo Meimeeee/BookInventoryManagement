@@ -24,7 +24,4 @@ public class UpdateAccountRequestDTO {
             message = "Password must contain at least 8 characters, one uppercase, one lowercase, one digit, and one special character"
     )
     private String newPassword;
-
-
-
 }

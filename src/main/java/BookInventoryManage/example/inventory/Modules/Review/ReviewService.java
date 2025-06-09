@@ -66,22 +66,6 @@ public class ReviewService {
         else return list;
     }
 
-    public List<ReviewEntity> listAllReviewByUserId(Integer userId) {
-        if (userId == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User ID must not be empty !!");
-        }
-        List<ReviewEntity> listAllReview = listAllReviews();
-        List<ReviewEntity> list = new ArrayList<>();
-        for (ReviewEntity review : listAllReview) {
-            if (review.getUser().getId() == userId) {
-                list.add(review);
-            }
-        }
-        if (list.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found review by user Id: " + userId);
-        else return list;
-    }
-
     public void delete_admin(Integer reviewId) {
         ReviewEntity review = getReviewById(reviewId);
         reviewRepository.delete(review);
@@ -92,7 +76,7 @@ public class ReviewService {
         SecurityContext context = SecurityContextHolder.getContext();
         AccountEntity currentAcc = (AccountEntity) context.getAuthentication().getPrincipal();
         ReviewEntity review = getReviewById(reviewId);
-        if (currentAcc.getRole() == Role.ADMIN || (review.getUser().getId().equals(currentAcc.getId()))) {
+        if (review.getUser().getId().equals(currentAcc.getId())) {
             reviewRepository.delete(review);
         } else {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have sufficient permissions to delete !!");

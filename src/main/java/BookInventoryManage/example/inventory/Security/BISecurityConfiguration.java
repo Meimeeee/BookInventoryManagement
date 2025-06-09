@@ -40,12 +40,11 @@ public class BISecurityConfiguration {
 //                        guest
                         .requestMatchers(HttpMethod.GET, "/book/**", "/category/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/account/**", "/auth/**").permitAll()
+//                        admin
+                        .requestMatchers("/author/**", "/category/**", "/account/**", "/book/**", "/review/admin/**").hasAuthority(BIAuthority.of(Role.ADMIN).getAuthority())
 //                        user
                         .requestMatchers("/auth/**", "/review/**").authenticated()
-//                        admin
-                        .requestMatchers("/author/**", "/category/**", "/account/**", "/book/**").hasAuthority(BIAuthority.of(Role.ADMIN).getAuthority())
 
-//                        .anyRequest().permitAll()
                 ))
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))

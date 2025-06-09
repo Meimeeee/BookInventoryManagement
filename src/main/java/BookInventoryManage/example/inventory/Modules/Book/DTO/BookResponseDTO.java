@@ -25,12 +25,10 @@ public class BookResponseDTO {
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
     private String authorName;
-    private List<ReviewResponseDTO> reviews;
 
     public static BookResponseDTO fromEntity(BookEntity book) {
         return new BookResponseDTO(book.getId(), book.getIsbn(), book.getTitle(), book.getDescription(),
-                book.getCreateAt(), book.getUpdateAt(), book.getAuthor().getName(),
-                ReviewResponseDTO.fromEntities(book.getReviews()));
+                book.getCreateAt(), book.getUpdateAt(), book.getAuthor().getName());
     }
 
     public static List<BookResponseDTO> fromEntites(List<BookEntity> books) {

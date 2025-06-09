@@ -13,12 +13,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewResponseDTO {
+    private Integer id;
     public String content;
     public Integer rate;
     public LocalDateTime createAt;
 
     public static ReviewResponseDTO fromEntity(ReviewEntity review) {
-        return new ReviewResponseDTO(review.getContent(), review.getRate(), review.getCreateAt());
+        return new ReviewResponseDTO(review.getId(), review.getContent(), review.getRate(), review.getCreateAt());
     }
 
     public static List<ReviewResponseDTO> fromEntities(List<ReviewEntity> entities) {

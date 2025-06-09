@@ -18,7 +18,6 @@ import BookInventoryManage.example.inventory.Modules.Author.DTO.AuthorResponseDT
 import BookInventoryManage.example.inventory.Modules.Author.DTO.CreateAuthorRequestDTO;
 import BookInventoryManage.example.inventory.Modules.Author.DTO.UpdateAuthorRequestDTO;
 import BookInventoryManage.example.inventory.Modules.Databases.Entities.AuthorEntity;
-import BookInventoryManage.example.inventory.Modules.DelectionService;
 import jakarta.validation.Valid;
 
 @RestController
@@ -29,7 +28,7 @@ public class AuthorController {
     AuthorService authorService;
 
     @Autowired
-    DelectionService delectionService;
+    DeletionService deletionService;
 
     @PostMapping("/")
     ResponseEntity createAuthor(@RequestBody @Valid CreateAuthorRequestDTO dto) {
@@ -38,7 +37,7 @@ public class AuthorController {
     }
 
     @GetMapping("/")
-    ResponseEntity ListALlAuthor() {
+    ResponseEntity ListAllAuthor() {
         List<AuthorEntity> list = authorService.listAllAuthors();
         return new ResponseEntity(AuthorResponseDTO.fromEntities(list), HttpStatus.OK);
     }
@@ -51,7 +50,7 @@ public class AuthorController {
 
     @DeleteMapping("/{authorID}")
     ResponseEntity deleteAuthorById(@PathVariable("authorID") Integer Id) {
-        delectionService.deleteAuthorByID(Id);
+        deletionService.deleteAuthorByID(Id);
         return new ResponseEntity("Deleted !!", HttpStatus.OK);
     }
 }
