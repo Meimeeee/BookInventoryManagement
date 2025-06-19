@@ -47,7 +47,8 @@ For all **non-public API requests**, a security filter ensures that a valid JWT 
 
 
 ## 📦 3. Project Structure
-   | <main package>
+```
+   | src
    | enums
    | modules
       | account
@@ -63,6 +64,7 @@ For all **non-public API requests**, a security filter ensures that a valid JWT 
       | configs
          | ...
    | BookInventoryManageApplication
+   ```
 
 
 
