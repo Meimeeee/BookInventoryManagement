@@ -38,13 +38,31 @@ This document explains how **Google Login** is handled and how **JWT-based secur
 
 ---
 
-## 🛡️ 2. Security Filter & Token Verification
+## 🛡️ 2. Authentication & Authority
 
-For all **non-public API requests**, a security filter ensures that a valid JWT token is provided.
+- `Authentication` Verifys the identity of the user.
+- `Authority` Verifys the user's permissions.
 
-### ➤ BISecurityFilter:
-- Extracts the access token from the `Authorization` header:
+### ➤ Step-by-step:
 
+1. **Client sends request with JWT:**
+   - Sends a request with the JWT in the `Authorization` header.
+
+2. **Server receives the request:**
+   - Filters the request using `BIAuthentication`.
+
+3. **BIAuthentication processes the request:**
+   - Extracts JWT from the request.
+   - Decodes the JWT using `JwtService`.
+   - Checks if the token is valid and not expired.
+   - If valid:
+     - Extracts user information from the token.
+     - Sets the user in the `SecurityContextHolder`.
+     - Allows the request to proceed.
+   - If invalid:  
+     - Returns an authentication error.
+
+---      
 
 ## 📦 3. Project Structure
 ```
